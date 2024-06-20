@@ -6,13 +6,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
 
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
-//  class User extends Authenticatable implements FilamentUser
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'active'
+        'active',
     ];
 
     /**
@@ -34,6 +38,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'profile_photo_url',
     ];
 
     /**
@@ -47,14 +62,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    // public function canAccessPanel(Panel $panel): bool
-    // {
-    //     return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
-    // }
-    public static function getModelLabel(): string
-    {
-        return __('Users');
     }
 }
