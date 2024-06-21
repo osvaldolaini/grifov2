@@ -13,7 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+        <x-app-favicons></x-app-favicons>
         <!-- Styles -->
         @livewireStyles
     </head>

@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -24,12 +25,17 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            // ->brandLogo(fn () => view('filament.logo'))
             ->id('admin')
             ->path('admin')
             ->login()
             ->colors([
                 'primary' => Color::Blue,
+            ])
+            ->resources([
+                config('filament-logger.activity_resource')
+            ])
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -41,6 +47,9 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->brandLogo(asset('storage/logos/logo.png'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('favicon.ico'))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

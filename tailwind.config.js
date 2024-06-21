@@ -11,10 +11,6 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
-    daisyui: {
-        themes: ["light", "dark", "winter"],
-    },
-
     theme: {
         extend: {
             fontFamily: {
@@ -24,5 +20,4 @@ export default {
     },
 
     plugins: [forms, typography,require("daisyui")],
-
 };

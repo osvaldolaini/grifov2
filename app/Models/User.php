@@ -10,14 +10,30 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
+use Filament\Models\Contracts\FilamentUser;
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable implements FilamentUser
 {
+    use HasRoles;
+    use HasPanelShield;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    use LogsActivity;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable);
+    }
     /**
      * The attributes that are mass assignable.
      *
