@@ -16,12 +16,13 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(50)->create();
 
-        User::factory()->create([
-            'name' => 'Osvaldo Laini',
-            'email' => 'laini@test.com',
-            'password' => Hash::make('123456789'),
-            'active' => true
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Osvaldo Laini',
+        //     'panel_user' => 'super_admin',
+        //     'email' => 'laini@test.com',
+        //     'password' => Hash::make('123456789'),
+        //     'active' => true
+        // ]);
         $this->call(ConfigSeeder::class);
     }
 }

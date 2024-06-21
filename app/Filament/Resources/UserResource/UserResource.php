@@ -53,6 +53,11 @@ class UserResource extends Resource
                     ->required()
                     ->email()
                     ->unique(ignoreRecord: true),
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required(fn ($operation): bool => $operation === 'create')

@@ -2,9 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Models\Configurations;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
@@ -47,9 +49,11 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->profile(isSimple: false)
             ->brandLogo(asset('storage/logos/logo.png'))
+            ->brandName(fn () => (Configurations::find(1) ? Configurations::find(1)->title : config('app.name')))
             ->brandLogoHeight('3rem')
-            ->favicon(asset('favicon.ico'))
+            ->favicon(asset('storage/favicons/favicon.ico'))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

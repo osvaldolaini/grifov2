@@ -3,12 +3,9 @@
 use App\Livewire\Home;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/', Home::class)->name('home');
 Route::get('/', Home::class)->name('dashboard');
-Route::get('/login', Home::class)->name('dashboard');
+Route::get('/login', Home::class)->name('login');
 
 Route::middleware([
     'auth:sanctum',
