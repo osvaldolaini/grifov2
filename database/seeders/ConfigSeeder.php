@@ -15,8 +15,8 @@ class ConfigSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('configurations')->insert([
-            'title' => 'SITE SITE',
+        DB::table('general_settings')->insert([
+            'site_name' => 'SITE SITE',
         ]);
     }
 }

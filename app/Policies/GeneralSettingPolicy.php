@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Configurations;
+use App\Models\GeneralSetting;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ConfigurationsPolicy
+class GeneralSettingPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class ConfigurationsPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_configurations');
+        return $user->can('view_any_general_setting');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Configurations $configurations): bool
+    public function view(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('view_configurations');
+        return $user->can('view_general_setting');
     }
 
     /**
@@ -31,23 +31,23 @@ class ConfigurationsPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_configurations');
+        return $user->can('create_general_setting');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Configurations $configurations): bool
+    public function update(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('update_configurations');
+        return $user->can('update_general_setting');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Configurations $configurations): bool
+    public function delete(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('delete_configurations');
+        return $user->can('delete_general_setting');
     }
 
     /**
@@ -55,15 +55,15 @@ class ConfigurationsPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_configurations');
+        return $user->can('delete_any_general_setting');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Configurations $configurations): bool
+    public function forceDelete(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('force_delete_configurations');
+        return $user->can('force_delete_general_setting');
     }
 
     /**
@@ -71,15 +71,15 @@ class ConfigurationsPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_configurations');
+        return $user->can('force_delete_any_general_setting');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Configurations $configurations): bool
+    public function restore(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('restore_configurations');
+        return $user->can('restore_general_setting');
     }
 
     /**
@@ -87,15 +87,15 @@ class ConfigurationsPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_configurations');
+        return $user->can('restore_any_general_setting');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Configurations $configurations): bool
+    public function replicate(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('replicate_configurations');
+        return $user->can('replicate_general_setting');
     }
 
     /**
@@ -103,6 +103,6 @@ class ConfigurationsPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_configurations');
+        return $user->can('reorder_general_setting');
     }
 }

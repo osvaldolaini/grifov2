@@ -2,16 +2,16 @@
 
 namespace App\Providers\Filament;
 
-use App\Models\Configurations;
+use App\Models\GeneralSetting;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -20,6 +20,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Joaopaulolndev\FilamentGeneralSettings\FilamentGeneralSettingsPlugin;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
+use ShuvroRoy\FilamentSpatieLaravelBackup\Pages\Backups;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -37,7 +40,15 @@ class AdminPanelProvider extends PanelProvider
                 config('filament-logger.activity_resource')
             ])
             ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                FilamentSpatieLaravelBackupPlugin::make()->usingPage(Backups::class),
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+                // FilamentGeneralSettingsPlugin::make()
+                //     // ->canAccess(fn () => auth()->user()->id === 1)
+                //     ->setSort(-2)
+                //     ->setIcon('heroicon-o-cog')
+                //     ->setNavigationGroup('Configurações')
+                //     ->setTitle('Settings')
+                //     ->setNavigationLabel('Geral'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -51,9 +62,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->profile(isSimple: false)
             ->brandLogo(asset('storage/logos/logo.png'))
-            ->brandName(fn () => (Configurations::find(1) ? Configurations::find(1)->title : config('app.name')))
+            ->brandName(fn () => (GeneralSetting::find(1) ? GeneralSetting::find(1)->title : config('app.name')))
             ->brandLogoHeight('3rem')
-            ->favicon(asset('storage/favicons/favicon.ico'))
+            ->favicon(asset('storage/favicons/favicon-16x16.png'))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
