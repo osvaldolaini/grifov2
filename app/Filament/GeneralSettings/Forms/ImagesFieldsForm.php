@@ -14,7 +14,7 @@ class ImagesFieldsForm
                 // ->imageEditor()
                 // ->multiple()
                 ->directory('logos')
-                ->storeFileNamesIn('logo')
+                // ->storeFileNamesIn('logo')
                 ->columnSpanFull()
                 ->label(__('filament-general-settings::default.images')),
         ];

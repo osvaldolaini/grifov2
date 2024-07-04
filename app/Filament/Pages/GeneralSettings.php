@@ -24,6 +24,7 @@ use App\Filament\GeneralSettings\Helpers\EmailDataHelper;
 use App\Filament\GeneralSettings\Mail\TestMail;
 use App\Models\GeneralSetting;
 use App\Filament\GeneralSettings\Services\MailSettingsService;
+use Filament\Forms\Components\FileUpload;
 
 class GeneralSettings extends Page
 {
@@ -72,16 +73,25 @@ class GeneralSettings extends Page
             $arrTabs[] = Tabs\Tab::make('Images Tab')
                 ->label(__('filament-general-settings::default.images'))
                 ->icon('heroicon-o-photo')
-                ->schema(ImagesFieldsForm::get())
+                ->schema([
+                    FileUpload::make('logo')
+                        // ->image()
+                        // ->imageEditor()
+                        // ->multiple()
+                        ->directory('logos')
+                        // ->storeFileNamesIn('logo')
+                        ->columnSpanFull()
+                        ->label(__('filament-general-settings::default.images')),
+                ])
                 ->columns(3);
         }
-        if (config('filament-general-settings.show_address_tab')) {
-            $arrTabs[] = Tabs\Tab::make('Address Tab')
-                ->label(__('filament-general-settings::default.address'))
-                ->icon('heroicon-o-map-pin')
-                ->schema(AddressFieldsForm::get())
-                ->columns(3);
-        }
+        // if (config('filament-general-settings.show_address_tab')) {
+        //     $arrTabs[] = Tabs\Tab::make('Address Tab')
+        //         ->label(__('filament-general-settings::default.address'))
+        //         ->icon('heroicon-o-map-pin')
+        //         ->schema(AddressFieldsForm::get())
+        //         ->columns(3);
+        // }
 
 
         if (config('filament-general-settings.show_analytics_tab')) {

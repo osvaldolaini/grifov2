@@ -42,13 +42,6 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentSpatieLaravelBackupPlugin::make()->usingPage(Backups::class),
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
-                // FilamentGeneralSettingsPlugin::make()
-                //     // ->canAccess(fn () => auth()->user()->id === 1)
-                //     ->setSort(-2)
-                //     ->setIcon('heroicon-o-cog')
-                //     ->setNavigationGroup('Configurações')
-                //     ->setTitle('Settings')
-                //     ->setNavigationLabel('Geral'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
