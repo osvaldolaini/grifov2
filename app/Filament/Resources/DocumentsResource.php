@@ -24,15 +24,14 @@ class DocumentsResource extends Resource
 {
     protected static ?string $model = Documents::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
-
     protected static ?string $navigationGroup = 'Documentos';
 
-    public static function getNavigationLabel(): string
-    {
-        return 'Documentos';
-    }
+    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
+    public static function getLabel(): ?string
+    {
+        return __('Document');
+    }
 
     protected static ?int $navigationSort = 1;
 

@@ -29,13 +29,13 @@ class FactsResource extends Resource
 {
     protected static ?string $model = Facts::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     protected static ?string $navigationGroup = 'Fatos';
 
-    public static function getNavigationLabel(): string
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getLabel(): ?string
     {
-        return 'Fatos';
+        return __('Fact');
     }
 
     protected static ?int $navigationSort = 1;
@@ -152,7 +152,7 @@ class FactsResource extends Resource
                 Tables\Columns\TextColumn::make('data')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('id')->label('Nº')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('assunto')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('type.tipo')->label('Tipo'),
+                Tables\Columns\TextColumn::make('type.tipo')->label('Tipo')->badge()
 
             ])
             ->filters([

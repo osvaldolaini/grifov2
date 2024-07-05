@@ -29,8 +29,8 @@ class FieldsRegisterTypes extends Page
         $this->fields = DB::getSchemaBuilder()->getColumnListing('registers');
         // Removendo as colunas
         $this->fields = array_diff($this->fields, [
-            "postal_code", "number", "address", "district", "city", "tipo", "nome",
-            "complement", "created_at", "registers_types_id", "palavraChave",
+            "postal_code", "number", "address", "district", "city", "tipo", "nome", "endereco",
+            "complement", "created_at", "registers_types_id", "palavraChave", "pai", "mae",
             "updated_at", "updated_by", "created_by", "id", "active", "cep", "fixo", "contato", "celular"
         ]);
         $this->fields = array_merge($this->fields);

@@ -5,10 +5,15 @@ namespace App\Models\Facts;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
+use Filament\Models\Contracts\FilamentUser;
 
-class Facts extends Model
+class Facts extends Model implements FilamentUser
 {
     use HasFactory;
+    use HasRoles;
+    use HasPanelShield;
 
     protected $table = 'facts';
 
@@ -31,6 +36,10 @@ class Facts extends Model
             return Carbon::createFromFormat('Y-m-d', $value)
                 ->format('d/m/Y');
         }
+    }
+    public function getAssuntoAttribute($value)
+    {
+        return mb_strtoupper($value);
     }
     public function setNomeAttribute($value)
     {

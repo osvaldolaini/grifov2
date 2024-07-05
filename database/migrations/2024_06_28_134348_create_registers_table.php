@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('codNome', 100)->nullable();
             $table->string('sexo', 30)->nullable();
             $table->string('especialidade', 30)->nullable();
+            $table->string('postoGrad', 30)->nullable();
             $table->date('nascimento')->nullable();
             $table->string('nacionalidade', 100)->nullable();
             $table->string('naturalidade', 100)->nullable();

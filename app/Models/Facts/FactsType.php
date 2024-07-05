@@ -22,6 +22,10 @@ class FactsType extends Model
     {
         $this->attributes['tipo'] = mb_strtoupper($value);
     }
+    public function getTipoAttribute($value)
+    {
+        return mb_strtoupper($value);
+    }
     public function facts()
     {
         return $this->hasMany(Facts::class);

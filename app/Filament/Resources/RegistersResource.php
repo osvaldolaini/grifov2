@@ -7,6 +7,8 @@ use App\Filament\Resources\RegistersResource\RelationManagers;
 use App\Models\Registers\Registers;
 use App\Models\Registers\RegistersType;
 use App\Models\Registers\RegistersTypeFields;
+use App\Tables\Columns\DocumentsColumn;
+use App\Tables\Columns\DocumentTypeColumn;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Component;
@@ -34,10 +36,11 @@ class RegistersResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function getNavigationLabel(): string
+    public static function getLabel(): ?string
     {
-        return 'Cadastros';
+        return __('Register');
     }
+
 
     public static function form(Form $form): Form
     {
@@ -75,7 +78,7 @@ class RegistersResource extends Resource
                                         fn ($record, $get) => RegistersTypeFields::query()
                                             ->where([
                                                 'registers_type_id' => $get('registers_types_id'),
-                                                'field_name' => 'estrangeiro'
+                                                'field_name' => 'militar'
                                             ])->exists()
                                     ),
                                 Forms\Components\TextInput::make('codNome')
@@ -131,6 +134,16 @@ class RegistersResource extends Resource
                                             ->where([
                                                 'registers_type_id' => $get('registers_types_id'),
                                                 'field_name' => 'cnpj'
+                                            ])->exists()
+                                    ),
+                                Forms\Components\TextInput::make('postoGrad')
+                                    ->label('Posto / Graduação / Função')
+                                    ->columnSpan(2)
+                                    ->visible(
+                                        fn ($record, $get) => RegistersTypeFields::query()
+                                            ->where([
+                                                'registers_type_id' => $get('registers_types_id'),
+                                                'field_name' => 'postoGrad'
                                             ])->exists()
                                     ),
                                 Forms\Components\Select::make('sexo')
@@ -505,17 +518,16 @@ class RegistersResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nome')->label('Nome')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('cpf')->label('CPF')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('cnpj')->label('CNPJ')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('saram')->label('SARAM')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('type.nome')
-                    ->label('Tipo')
-                    ->searchable()
-                    ->sortable()
-                    ->badge(),
-                // ->badge('type.cor')
-                // ->color('type.cor'),
+                Tables\Columns\TextColumn::make('nome')->label('Nome')->searchable(
+                    ['nome', 'cpf', 'rg', 'saram', 'cnpj']
+                )->sortable(),
+                DocumentsColumn::make('identificacao')->label('Dados'),
+                DocumentTypeColumn::make('type')->label('Tipo'),
+                // Tables\Columns\TextColumn::make('type.nome')
+                //     ->label('Tipo')
+                //     ->searchable()
+                //     ->sortable()
+                //     ->badge(),
             ])
             ->filters([
                 SelectFilter::make('type')

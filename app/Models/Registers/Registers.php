@@ -16,7 +16,7 @@ class Registers extends Model
         'id', 'registers_types_id', 'active',
         'tipo', 'nome', 'codNome', 'sexo', 'especialidade', 'nascimento', 'nacionalidade',
         'pai', 'mae', 'endereco', 'cep', 'celular', 'fixo', 'rg', 'naturalidade',
-        'cpf', 'passaporte', 'militar', 'estrangeiro', 'saram',
+        'cpf', 'passaporte', 'militar', 'estrangeiro', 'saram', 'postoGrad',
         'imagem', 'obs', 'palavraChave', 'cnpj', 'parentes', 'contatos', 'enderecos',
 
         'aeronave_prefixo', 'aeronave_proprietario', 'aeronave_outros_proprietarios', 'aeronave_sg_uf',
@@ -39,6 +39,10 @@ class Registers extends Model
     public function setNomeAttribute($value)
     {
         $this->attributes['nome'] = mb_strtoupper($value);
+    }
+    public function getNomeAttribute($value)
+    {
+        return mb_strtoupper($value);
     }
     public function setNascimentoAttribute($value)
     {
@@ -71,5 +75,25 @@ class Registers extends Model
     public function contacts()
     {
         return $this->hasMany(Contacts::class);
+    }
+    public function getIdentificacaoAttribute()
+    {
+        $docs = [];
+        if ($this->cpf) {
+            $docs['CPF'] = $this->cpf;
+        }
+        if ($this->cnpj) {
+            $docs['CNPJ'] = $this->cnpj;
+        }
+        if ($this->rg) {
+            $docs['RG'] = $this->rg;
+        }
+        if ($this->saram) {
+            $docs['SARAM'] = $this->saram;
+        }
+        if ($this->postoGrad) {
+            $docs['POSTO/GRAD'] = $this->postoGrad;
+        }
+        return $docs;
     }
 }
