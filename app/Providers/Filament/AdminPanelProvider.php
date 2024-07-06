@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $timestamp = filemtime(storage_path('app/public/logos/logo.png'));
         return $panel
             ->default()
             ->id('admin')
@@ -54,10 +55,10 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->profile(isSimple: false)
-            ->brandLogo(asset('storage/logos/logo.png'))
+            ->brandLogo(asset('storage/logos/logo.png') . '?v=' . $timestamp)
             ->brandName(fn () => (GeneralSetting::find(1) ? GeneralSetting::find(1)->title : config('app.name')))
             ->brandLogoHeight('3rem')
-            ->favicon(asset('storage/favicons/favicon-16x16.png'))
+            ->favicon(asset('storage/favicons/favicon-16x16.png') . '?v=' . $timestamp)
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

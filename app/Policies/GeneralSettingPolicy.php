@@ -15,7 +15,7 @@ class GeneralSettingPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_general_setting');
+        return $user->can('view_any_general::settings');
     }
 
     /**
@@ -23,7 +23,7 @@ class GeneralSettingPolicy
      */
     public function view(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('view_general_setting');
+        return $user->can('view_general::settings');
     }
 
     /**
@@ -31,7 +31,7 @@ class GeneralSettingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_general_setting');
+        return $user->can('create_general::settings');
     }
 
     /**
@@ -39,7 +39,7 @@ class GeneralSettingPolicy
      */
     public function update(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('update_general_setting');
+        return $user->can('update_general::settings');
     }
 
     /**
@@ -47,7 +47,7 @@ class GeneralSettingPolicy
      */
     public function delete(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('delete_general_setting');
+        return $user->can('delete_general::settings');
     }
 
     /**
@@ -55,7 +55,7 @@ class GeneralSettingPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_general_setting');
+        return $user->can('delete_any_general::settings');
     }
 
     /**
@@ -63,7 +63,7 @@ class GeneralSettingPolicy
      */
     public function forceDelete(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('force_delete_general_setting');
+        return $user->can('force_delete_general::settings');
     }
 
     /**
@@ -71,7 +71,7 @@ class GeneralSettingPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_general_setting');
+        return $user->can('force_delete_any_general::settings');
     }
 
     /**
@@ -79,7 +79,7 @@ class GeneralSettingPolicy
      */
     public function restore(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('restore_general_setting');
+        return $user->can('restore_general::settings');
     }
 
     /**
@@ -87,7 +87,7 @@ class GeneralSettingPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_general_setting');
+        return $user->can('restore_any_general::settings');
     }
 
     /**
@@ -95,7 +95,7 @@ class GeneralSettingPolicy
      */
     public function replicate(User $user, GeneralSetting $generalSetting): bool
     {
-        return $user->can('replicate_general_setting');
+        return $user->can('replicate_general::settings');
     }
 
     /**
@@ -103,6 +103,6 @@ class GeneralSettingPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_general_setting');
+        return $user->can('reorder_general::settings');
     }
 }

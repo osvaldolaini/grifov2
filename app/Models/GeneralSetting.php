@@ -59,6 +59,6 @@ class GeneralSetting extends Model implements FilamentUser
         'social_network' => 'array',
         'more_configs' => 'array',
         // 'logo_path' => 'array',
-        'logo' => 'string'
+        'logo' => 'array'
     ];
 }

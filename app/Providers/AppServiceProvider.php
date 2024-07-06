@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Filament\Facades\Filament;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
@@ -22,9 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // FilamentAsset::register([
-        //     Css::make('app-css', __DIR__ . 'public/build/assets/*.css'),
-        //     Js::make('app-js', __DIR__ . 'public/build/assets/*.js')
-        // ]);
+        //
     }
 }
