@@ -7,6 +7,7 @@ use App\Filament\Resources\DocumentsResource\RelationManagers;
 use App\Models\Documents\Documents;
 use App\Models\Documents\DocumentsType;
 use App\Models\Registers\Registers;
+use App\Tables\Columns\DocumentInfosColumn;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -158,23 +159,28 @@ class DocumentsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('data')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('numero')->label('Nº')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->colors([
-                        'secondary' => 'interno',
-                        'warning' => 'recebido',
-                        'success' => 'expedido',
-                    ])
-                    ->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('assunto')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('type.nome')
-                    ->label('Tipo'),
+                Tables\Columns\TextColumn::make('data')->searchable([
+                    'data', 'numero', 'id', 'assunto'
+                ])->sortable(),
+                DocumentInfosColumn::make('number')->label('Dados'),
+                // Tables\Columns\TextColumn::make('number')
+                //     ->label('Nº'),
+                // Tables\Columns\TextColumn::make('status')
+                //     ->badge()
+                //     ->colors([
+                //         'secondary' => 'interno',
+                //         'warning' => 'recebido',
+                //         'success' => 'expedido',
+                //     ])
+                //     ->searchable()->sortable(),
+                // Tables\Columns\TextColumn::make('assunto')->searchable()->sortable(),
+                // Tables\Columns\TextColumn::make('type.nome')
+                //     ->label('Tipo'),
                 Tables\Columns\TextColumn::make('type.categoria')
                     ->badge()
                     ->label('Categoria'),
             ])
+            ->defaultSort('data', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->multiple()

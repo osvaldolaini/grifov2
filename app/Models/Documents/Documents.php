@@ -29,6 +29,14 @@ class Documents extends Model implements FilamentUser
     {
         $this->attributes['tipoNome'] = mb_strtoupper($value);
     }
+    public function setAssuntoAttribute($value)
+    {
+        $this->attributes['assunto'] = mb_strtoupper($value);
+    }
+    public function getAssuntoAttribute($value)
+    {
+        return mb_strtoupper($value);
+    }
     public function setDataAttribute($value)
     {
         if ($value != "") {
@@ -45,6 +53,10 @@ class Documents extends Model implements FilamentUser
         }
     }
     public function getReferenceAttribute()
+    {
+        return $this->type->nome . ' Nº ' . $this->numeroExpedicao . '/' . $this->origem . ' de ' . $this->data;
+    }
+    public function getNumberAttribute()
     {
         return $this->type->nome . ' Nº ' . $this->numeroExpedicao . '/' . $this->origem . ' de ' . $this->data;
     }
