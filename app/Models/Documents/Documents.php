@@ -2,6 +2,7 @@
 
 namespace App\Models\Documents;
 
+use App\Models\Registers\Registers;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,7 @@ class Documents extends Model implements FilamentUser
         'assunto', 'resenha', 'descricao', 'anexos', 'documento',
         'updated_by', 'created_by',
     ];
+
     public function setTipoNomeAttribute($value)
     {
         $this->attributes['tipoNome'] = mb_strtoupper($value);
@@ -60,6 +62,22 @@ class Documents extends Model implements FilamentUser
     {
         return $this->type->nome . ' Nº ' . $this->numeroExpedicao . '/' . $this->origem . ' de ' . $this->data;
     }
+    public function getVinculosAttribute()
+    {
+        // dd($this->palavraChave);
+        if (is_array($this->palavraChave)) {
+            $participantes = array();
+            foreach ($this->palavraChave as $envolvido) {
+                $register = Registers::find($envolvido);
+                if ($register) {
+                    $participantes[] = $register->nome . ($register->cpf ? ' - ' . $register->cpf : ($register->cnpj ? ' - ' . $register->cnpj : ''));
+                }
+            }
+            return $participantes;
+        }
+        // dd($participantes);
+    }
+
 
 
     protected $casts = [

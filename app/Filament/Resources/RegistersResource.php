@@ -18,6 +18,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 
 use Filament\Forms\Components\TextInput;
 use Leandrocfe\FilamentPtbrFormFields\Cep;
@@ -25,6 +27,9 @@ use Filament\Forms\Components\Tabs;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Blade;
 
 class RegistersResource extends Resource
 {
@@ -40,7 +45,39 @@ class RegistersResource extends Resource
     {
         return __('Register');
     }
+    // required to enable global search
+    protected static ?string $recordTitleAttribute = 'nome';
 
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    {
+        return $record->nome;
+    }
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        if ($record->documents) {
+            $docs = $record->documents;
+            $doc_array = '';
+            foreach ($docs as $key => $value) {
+                $doc_array .= ' (' . $value . ')';
+            }
+            // $doc_array = substr($doc_array, 0, -2);
+            // $doc_array .= ' )';
+        } else {
+            $doc_array = '';
+        }
+
+        return [
+            'Tipo'          => $record->type->nome,
+            'CPF / CNPJ'    => ($record->cpf ?? $record->cnpj),
+            'RG'            => $record->rg,
+            'SARAM'         => $record->saram,
+            'Citado em'     => $doc_array,
+        ];
+    }
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['nome', 'cpf', 'saram', 'rg', 'type.nome'];
+    }
 
     public static function form(Form $form): Form
     {
@@ -536,7 +573,12 @@ class RegistersResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make(), Tables\Actions\Action::make('pdf')
+                    ->label('PDF')
+                    ->color('success')
+                    ->icon('heroicon-s-arrow-down-tray')
+                    ->url(fn (Registers $record) => route('pdf-register', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

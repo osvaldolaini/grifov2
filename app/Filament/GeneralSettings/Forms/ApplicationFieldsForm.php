@@ -17,6 +17,12 @@ class ApplicationFieldsForm
                 ->label(__('filament-general-settings::default.site_name'))
                 ->autofocus()
                 ->columnSpanFull(),
+            TextInput::make('om')
+                ->label('OM')
+                ->autofocus(),
+            TextInput::make('secao')
+                ->label('Seção')
+                ->autofocus(),
             Document::make('cpf_or_cnpj')
                 ->label('CPF / CNPJ')
                 ->dynamic()

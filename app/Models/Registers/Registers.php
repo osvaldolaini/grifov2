@@ -6,6 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
+use App\Models\Documents\Documents;
+use App\Models\Facts\Facts;
+
 class Registers extends Model
 {
     use HasFactory;
@@ -36,6 +40,7 @@ class Registers extends Model
         'contatos' => 'array',
         'enderecos' => 'array',
     ];
+
     public function setNomeAttribute($value)
     {
         $this->attributes['nome'] = mb_strtoupper($value);
@@ -95,5 +100,32 @@ class Registers extends Model
             $docs['POSTO/GRAD'] = $this->postoGrad;
         }
         return $docs;
+    }
+    
+    public function getDocumentsAttribute()
+    {
+        $documents = array();
+        $docs = Documents::where('palavraChave','LIKE',"%".$this->id."%")->get();
+        $facts = Facts::where('palavraChave','LIKE',"%".$this->id."%")->get();
+
+        if ($docs) {
+            $participantes = array();
+            foreach ($docs as $doc) {
+                if ($doc) {
+                    $documents[] = $doc->number;
+                }
+            }
+        }
+        if ($facts) {
+            $participantes = array();
+            foreach ($facts as $fact) {
+                if ($fact) {
+                    $documents[] = $fact->number;
+                }
+            }
+        }
+
+        
+        return $documents;
     }
 }

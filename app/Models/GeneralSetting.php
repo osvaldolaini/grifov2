@@ -27,6 +27,8 @@ class GeneralSetting extends Model implements FilamentUser
 
     protected $fillable = [
         'site_name',
+        'om',
+        'secao',
         'cpf_or_cnpj',
         'site_description',
         'theme_color',

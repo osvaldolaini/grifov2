@@ -20,6 +20,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\Tabs;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentsResource extends Resource
 {
@@ -32,6 +35,36 @@ class DocumentsResource extends Resource
     public static function getLabel(): ?string
     {
         return __('Document');
+    }
+    // required to enable global search
+    protected static ?string $recordTitleAttribute = 'assunto';
+
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    {
+        return $record->assunto;
+    }
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        if ($record->vinculos) {
+            $participantes = $record->vinculos;
+            $participante = '';
+            foreach ($participantes as $key => $value) {
+                $participante .= '(' . $value . ') ';
+            }
+            // $participante = substr($participante, 0, -2);
+            // $participante .= ' )';
+        } else {
+            $participante = '';
+        }
+        return [
+            'Nº' => $record->number,
+            'Tipo de documento' => $record->type->nome,
+            'Envolvidos' => $participante,
+        ];
+    }
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['assunto', 'type.nome', 'palavraChave', 'numero', 'numeroExpedicao'];
     }
 
     protected static ?int $navigationSort = 1;
@@ -196,7 +229,14 @@ class DocumentsResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->label('PDF')
+                    ->color('success')
+                    ->icon('heroicon-s-arrow-down-tray')
+                    ->url(fn (Documents $record) => route('pdf-document', $record))
+                    ->openUrlInNewTab()
+                    ->visible(fn (Documents $record) => Storage::exists('public/' . $record->documento)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

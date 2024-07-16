@@ -21,6 +21,8 @@ use Filament\Forms\Components\Tabs;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 
 use Filament\Forms\Components\TextInput;
 use Leandrocfe\FilamentPtbrFormFields\Cep;
@@ -36,6 +38,36 @@ class FactsResource extends Resource
     public static function getLabel(): ?string
     {
         return __('Fact');
+    }
+    // required to enable global search
+    protected static ?string $recordTitleAttribute = 'assunto';
+
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    {
+        return $record->assunto;
+    }
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        if ($record->vinculos) {
+            $participantes = $record->vinculos;
+            $participante = '';
+            foreach ($participantes as $key => $value) {
+                $participante .= '(' . $value . ') ';
+            }
+            // $participante = substr($participante, 0, -2);
+            // $participante .= ' )';
+        } else {
+            $participante = '';
+        }
+        return [
+            'Nº' => $record->id,
+            'Tipo de documento' => $record->type->tipo,
+            'Envolvidos' => $participante,
+        ];
+    }
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['assunto', 'type.nome', 'id'];
     }
 
     protected static ?int $navigationSort = 1;
@@ -163,7 +195,13 @@ class FactsResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->label('PDF')
+                    ->color('success')
+                    ->icon('heroicon-s-arrow-down-tray')
+                    ->url(fn (Facts $record) => route('pdf-fact', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

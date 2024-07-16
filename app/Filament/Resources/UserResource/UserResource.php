@@ -17,9 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-
-use function Laravel\Prompts\warning;
-
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -48,9 +45,9 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('profile_photo_path')
+                Forms\Components\FileUpload::make('avatar_url')
                     ->avatar()
-                    ->directory('users'),
+                    ->label('Foto'),
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('email')

@@ -6,6 +6,7 @@ use App\Filament\Enums\CategoryDocumentEnum;
 use App\Filament\Enums\CategoryDocuments;
 use App\Filament\Resources\DocumentsTypeResource\Pages;
 use App\Filament\Resources\DocumentsTypeResource\RelationManagers;
+use App\Models\Documents\Documents;
 use App\Models\Documents\DocumentsType;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -18,6 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Collection;
 
+
+
 class DocumentsTypeResource extends Resource
 {
     protected static ?string $model = DocumentsType::class;
@@ -28,10 +31,11 @@ class DocumentsTypeResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function getNavigationLabel(): string
+    public static function getLabel(): ?string
     {
         return 'Tipos de documentos';
     }
+
 
     public static function form(Form $form): Form
     {

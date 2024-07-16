@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\DocumentPdfController;
+use App\Http\Controllers\FactPdfController;
+use App\Http\Controllers\RegisterPdfController;
 use App\Livewire\Home;
 use Illuminate\Support\Facades\Route;
 
@@ -13,4 +16,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/', Home::class)->name('dashboard');
+    Route::get('pdf-fact/{fact}', FactPdfController::class)->name('pdf-fact');
+    Route::get('pdf-register/{register}', RegisterPdfController::class)->name('pdf-register');
+    Route::get('pdf-document/{document}', DocumentPdfController::class)->name('pdf-document');
 });

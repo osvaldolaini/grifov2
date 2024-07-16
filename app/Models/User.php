@@ -16,9 +16,10 @@ use Spatie\Activitylog\LogOptions;
 
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     use HasRoles;
     use HasPanelShield;
@@ -34,6 +35,11 @@ class User extends Authenticatable implements FilamentUser
         return LogOptions::defaults()
             ->logOnly($this->fillable);
     }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return env('APP_URL').'/storage/'.$this->avatar_url;
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -44,7 +50,8 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'active',
-        'profile_photo_path'
+        'profile_photo_path',
+        'avatar_url'
     ];
 
     /**

@@ -9,6 +9,8 @@ use Spatie\Permission\Traits\HasRoles;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 
+use App\Models\Registers\Registers;
+
 class Facts extends Model implements FilamentUser
 {
     use HasFactory;
@@ -44,6 +46,7 @@ class Facts extends Model implements FilamentUser
     public function setNomeAttribute($value)
     {
         $this->attributes['nome'] = mb_strtoupper($value);
+        $this->attributes['active'] = 1;
     }
     protected $casts = [
         'data' => 'datetime:Y-m-d',
@@ -52,6 +55,27 @@ class Facts extends Model implements FilamentUser
         'palavraChave' => 'array',
         'local' => 'array'
     ];
+    public function getVinculosAttribute()
+    {
+        // dd($this->palavraChave);
+        if (is_array($this->palavraChave)) {
+            $participantes = array();
+            foreach ($this->palavraChave as $envolvido) {
+                $register = Registers::find($envolvido);
+                if ($register) {
+                    $participantes[] = $register->nome . ($register->cpf ? ' - ' . $register->cpf : ($register->cnpj ? ' - ' . $register->cnpj : ''));
+                }
+                
+            }
+            return $participantes;
+        }
+        // dd($participantes);
+    }
+
+    public function getNumberAttribute()
+    {
+        return $this->assunto . ' - Fato Nº ' . $this->id. ' de ' . $this->data;
+    }
 
     public function type()
     {
