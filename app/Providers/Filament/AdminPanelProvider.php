@@ -55,7 +55,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                // GlobalSearchWidget::class,
+                GlobalSearchWidget::class,
             ])
             // ->profile(isSimple: false)
             ->brandLogo(asset('storage/logos/logo.png') . '?v=' . $timestamp)
@@ -76,6 +76,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->globalSearchDebounce('750ms');
+            ->globalSearchDebounce('750ms')
+            ->pages([]);
     }
 }

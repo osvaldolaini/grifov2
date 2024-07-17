@@ -70,7 +70,7 @@ class Documents extends Model implements FilamentUser
             foreach ($this->palavraChave as $envolvido) {
                 $register = Registers::find($envolvido);
                 if ($register) {
-                    $participantes[] = $register->nome . ($register->cpf ? ' - ' . $register->cpf : ($register->cnpj ? ' - ' . $register->cnpj : ''));
+                    $participantes[$register->id] = $register->nome . ($register->cpf ? ' - ' . $register->cpf : ($register->cnpj ? ' - ' . $register->cnpj : ''));
                 }
             }
             return $participantes;

@@ -10,6 +10,14 @@
 ## About Laravel
 
 Passar para o servidor
+
 Resourses\DocumentsResource
 App\Http\Controllers\DocumentPdfController
 Routes\Web
+
+resourses\views\widgets\global-search-widget
+App\Filament\Widgets\GlobalSearchWidget
+
+App\Models\Registers\Registers
+App\Models\Documents\Documents
+App\Models\Facts\Facts

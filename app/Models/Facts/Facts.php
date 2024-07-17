@@ -63,9 +63,8 @@ class Facts extends Model implements FilamentUser
             foreach ($this->palavraChave as $envolvido) {
                 $register = Registers::find($envolvido);
                 if ($register) {
-                    $participantes[] = $register->nome . ($register->cpf ? ' - ' . $register->cpf : ($register->cnpj ? ' - ' . $register->cnpj : ''));
+                    $participantes[$register->id] = $register->nome . ($register->cpf ? ' - ' . $register->cpf : ($register->cnpj ? ' - ' . $register->cnpj : ''));
                 }
-                
             }
             return $participantes;
         }
@@ -74,7 +73,7 @@ class Facts extends Model implements FilamentUser
 
     public function getNumberAttribute()
     {
-        return $this->assunto . ' - Fato Nº ' . $this->id. ' de ' . $this->data;
+        return $this->assunto . ' - Fato Nº ' . $this->id . ' de ' . $this->data;
     }
 
     public function type()

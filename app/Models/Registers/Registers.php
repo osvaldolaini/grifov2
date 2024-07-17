@@ -101,31 +101,29 @@ class Registers extends Model
         }
         return $docs;
     }
-    
+
     public function getDocumentsAttribute()
     {
         $documents = array();
-        $docs = Documents::where('palavraChave','LIKE',"%".$this->id."%")->get();
-        $facts = Facts::where('palavraChave','LIKE',"%".$this->id."%")->get();
+        $docs = Documents::where('palavraChave', 'LIKE', "%" . $this->id . "%")->get();
+        $facts = Facts::where('palavraChave', 'LIKE', "%" . $this->id . "%")->get();
 
         if ($docs) {
-            $participantes = array();
             foreach ($docs as $doc) {
                 if ($doc) {
-                    $documents[] = $doc->number;
+                    $documents['documents/' . $doc->id] = $doc->number;
                 }
             }
         }
         if ($facts) {
-            $participantes = array();
             foreach ($facts as $fact) {
                 if ($fact) {
-                    $documents[] = $fact->number;
+                    $documents['facts/' . $fact->id] = $fact->number;
                 }
             }
         }
 
-        
+
         return $documents;
     }
 }
