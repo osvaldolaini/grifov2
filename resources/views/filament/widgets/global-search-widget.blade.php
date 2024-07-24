@@ -76,24 +76,26 @@
                                 </div>
                             @endforeach
                         @endif
-                        <p class="flex p"><x-filament::badge size="sm" color="gray" class="my-5">
-                                Fatos e documentos:
-                            </x-filament::badge>
-                            @if ($result->documents)
-                                @foreach ($result->documents as $key => $value)
-                                    <div class="mr-1 text-xs">
-                                        <ul class="list-decimal">
-                                            <li>
-                                                <a href="{{ url('admin/' . $key . '/edit') }}" target="_blank"
-                                                    rel="noopener noreferrer">
-                                                    <strong>&nbsp;{{ $value }} </strong>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </p>
+                        @if ($result->documents)
+                            <p class="flex p"><x-filament::badge size="sm" color="gray" class="my-5">
+                                    Fatos e documentos:
+                                </x-filament::badge>
+                                @if ($result->documents)
+                                    @foreach ($result->documents as $key => $value)
+                                        <div class="mr-1 text-xs">
+                                            <ul class="list-decimal">
+                                                <li>
+                                                    <a href="{{ url('admin/' . $key . '/edit') }}" target="_blank"
+                                                        rel="noopener noreferrer">
+                                                        <strong>&nbsp;{{ $value }} </strong>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </p>
+                        @endif
                     </li>
                 @endforeach
             </ul>

@@ -28,7 +28,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Blade;
 
 class RegistersResource extends Resource
@@ -572,9 +572,16 @@ class RegistersResource extends Resource
                     ->relationship('type', 'nome')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(), Tables\Actions\Action::make('pdf')
-                    ->label('PDF')
+                Action::make('customPage')
+                    ->label('') // Nome da ação
+                    ->url(fn ($record) => url("/admin/registers/{$record->id}/vinculos"))
+                    // ->url(fn ($record) => route('vinculos', $record)) // URL da página personalizada
+                    ->icon('heroicon-o-share')
+                    ->color('success'),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label(''), Tables\Actions\Action::make('pdf')
+                    // ->label('PDF')
+                    ->label('')
                     ->color('success')
                     ->icon('heroicon-s-arrow-down-tray')
                     ->url(fn (Registers $record) => route('pdf-register', $record))
@@ -600,6 +607,7 @@ class RegistersResource extends Resource
             'index' => Pages\ListRegisters::route('/'),
             'create' => Pages\CreateRegisters::route('/create'),
             'edit' => Pages\EditRegisters::route('/{record}/edit'),
+            'vinculos' => Pages\VinculosRegisters::route('/{record}/vinculos'),
         ];
     }
 }

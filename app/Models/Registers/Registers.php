@@ -122,8 +122,89 @@ class Registers extends Model
                 }
             }
         }
-
-
         return $documents;
+    }
+    public function getKeyWordsAttribute()
+    {
+        $palavraChave = array();
+        $docs = Documents::where('palavraChave', 'LIKE', "%" . $this->id . "%")->get();
+
+        if ($docs) {
+            foreach ($docs as $doc) {
+                if ($doc->palavraChave) {
+                    foreach ($doc->palavraChave as $value) {
+                        $value = (int) $value;
+                        $palavraChave[] = $value;
+                    }
+                }
+            }
+        }
+        $facts = Facts::where('palavraChave', 'LIKE', "%" . $this->id . "%")->get();
+
+        if ($facts) {
+            foreach ($facts as $fact) {
+                if ($fact->palavraChave) {
+                    foreach ($fact->palavraChave as $value) {
+                        $value = (int) $value;
+                        $palavraChave[] = $value;
+                    }
+                }
+            }
+        }
+
+        $keyWords = $palavraChave;
+        // Encontrar o índice do item
+        $index = array_search($this->id, $keyWords);
+        if ($index !== false) {
+            // Remover o item pelo índice
+            unset($keyWords[$index]);
+            // Reindexar o array para evitar chaves numéricas não sequenciais
+            $keyWords = array_values($keyWords);
+        }
+        // Contar as ocorrências de cada valor
+        $countedValues = array_count_values($keyWords);
+
+        // Criar a nova array no formato desejado
+        $newArray = [];
+
+        foreach ($countedValues as $id => $qtd) {
+            $newArray[] = ['id' => $id, 'nome' => Registers::find($id)->nome, 'qtd' => $qtd];
+        }
+        return json_encode($newArray);
+    }
+    // Função para obter os subníveis de vínculos
+    private function getSubLinks($id)
+    {
+        $subLinks = [];
+
+        // Buscar documentos relacionados ao vínculo
+        $docs = Documents::where('palavraChave', 'LIKE', "%" . $id . "%")->get();
+
+        foreach ($docs as $doc) {
+            if ($doc->palavraChave) {
+                foreach ($doc->palavraChave as $value) {
+                    $value = (int) $value;
+                    if ($value != $id) {
+                        $subLinks[] = ['id' => $value, 'nome' => Registers::find($value)->nome];
+                    }
+                }
+            }
+        }
+
+        // Buscar fatos relacionados ao vínculo
+        $facts = Facts::where('palavraChave', 'LIKE', "%" . $id . "%")->get();
+
+        foreach ($facts as $fact) {
+            if ($fact->palavraChave) {
+                foreach ($fact->palavraChave as $value) {
+                    $value = (int) $value;
+                    if ($value != $id) {
+                        $subLinks[] = ['id' => $value, 'nome' => Registers::find($value)->nome];
+                    }
+                }
+            }
+        }
+
+        return $subLinks;
     }
 }

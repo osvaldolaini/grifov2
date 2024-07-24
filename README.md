@@ -11,13 +11,7 @@
 
 Passar para o servidor
 
-Resourses\DocumentsResource
-App\Http\Controllers\DocumentPdfController
-Routes\Web
-
-resourses\views\widgets\global-search-widget
-App\Filament\Widgets\GlobalSearchWidget
-
-App\Models\Registers\Registers
-App\Models\Documents\Documents
-App\Models\Facts\Facts
+namespace App\Filament\Resources\RegistersResource
+namespace App\Models\Registers\Registers;
+namespace App\Filament\Resources\RegistersResource\Pages\VinculosRegisters;
+resources\views\filament\resources\registers-resource\vinculos

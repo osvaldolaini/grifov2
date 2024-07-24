@@ -228,10 +228,11 @@ class DocumentsResource extends Resource
                     ->relationship('type', 'nome'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label(''),
                 Tables\Actions\Action::make('pdf')
-                    ->label('PDF')
+                    // ->label('PDF')
+                    ->label('')
                     ->color('success')
                     ->icon('heroicon-s-arrow-down-tray')
                     ->url(fn (Documents $record) => route('pdf-document', $record))
