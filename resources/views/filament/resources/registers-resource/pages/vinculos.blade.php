@@ -45,8 +45,8 @@
                 /* Centraliza o SVG em relação ao contêiner */
             }
         </style>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        {{-- <script src="{{ asset('js/d3.min.js') }}"></script> --}}
+        {{-- <script src="https://d3js.org/d3.v7.min.js"></script> --}}
+        <script src="{{ asset('js/d3.min.js') }}"></script>
         <script>
             document.addEventListener('livewire:init', function() {
                 const nodes = @json($nodes);

@@ -21,6 +21,7 @@ class VinculosRegisters extends Page
     // public $documents = [];
     public $keyWords = [];
     public $mainNodeId;
+    public $subVinculos = false;
 
     protected ?string $heading = 'Vínculos';
 
@@ -68,18 +69,20 @@ class VinculosRegisters extends Page
             }
             $this->addLink($mainNodeId, $nodeId, $keyWord->qtd, $uniqueLinks);
 
-            // Adiciona os subitens (vínculos dos vínculos)
-            $subKeyWords = $this->getSubLinks($nodeId); // Função para buscar subitens
-            foreach ($subKeyWords as $subKeyWord) {
-                $subNodeId = (int) $subKeyWord['id'];
-                // Adiciona o subitem ao array de nós se ainda não estiver presente
-                if (!isset($nodesMap[$subNodeId])) {
-                    $nodesMap[$subNodeId] = true;
-                    $this->nodes[] = ['id' => $subNodeId, 'name' => $subKeyWord['nome'], 'qtd' => 1];
-                }
+            if ($this->subVinculos) {
+                // Adiciona os subitens (vínculos dos vínculos)
+                $subKeyWords = $this->getSubLinks($nodeId); // Função para buscar subitens
+                foreach ($subKeyWords as $subKeyWord) {
+                    $subNodeId = (int) $subKeyWord['id'];
+                    // Adiciona o subitem ao array de nós se ainda não estiver presente
+                    if (!isset($nodesMap[$subNodeId])) {
+                        $nodesMap[$subNodeId] = true;
+                        $this->nodes[] = ['id' => $subNodeId, 'name' => $subKeyWord['nome'], 'qtd' => 1];
+                    }
 
-                // Adiciona o vínculo entre o vínculo principal e o subitem
-                $this->addLink($nodeId, $subNodeId, 1, $uniqueLinks);
+                    // Adiciona o vínculo entre o vínculo principal e o subitem
+                    $this->addLink($nodeId, $subNodeId, 1, $uniqueLinks);
+                }
             }
         }
     }
